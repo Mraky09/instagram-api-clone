@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: instagram_clone_api_development
+
+test:
+  <<: *default
+  database: instagram_clone_api_development_test
+
+production:
+  <<: *default
+  database: instagram_clone_api_development_production
