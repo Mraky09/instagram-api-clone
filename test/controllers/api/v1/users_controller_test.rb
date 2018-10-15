@@ -5,5 +5,4 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
     get api_v1_users_index_url
     assert_response :success
   end
-
 end
