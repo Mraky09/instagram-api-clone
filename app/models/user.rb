@@ -1,3 +1,5 @@
+require 'bcrypt'
+
 class User < Sequel::Model
   plugin :validation_helpers
 
@@ -14,5 +16,19 @@ class User < Sequel::Model
       return unless user_token
       user_token.user
     end
+  end
+
+  def password=(unencrypted_password)
+    if unencrypted_password.nil?
+      self.password_digest = nil
+    elsif !unencrypted_password.empty?
+      @password = unencrypted_password
+      cost = BCrypt::Engine.cost
+      self.password_digest = BCrypt::Password.create(unencrypted_password, cost: cost)
+    end
+  end
+
+  def authenticate_password(unencrypted_password)
+    BCrypt::Password.new(password_digest).is_password?(unencrypted_password) && self
   end
 end
